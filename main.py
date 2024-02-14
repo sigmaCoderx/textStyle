@@ -31,9 +31,11 @@ headers = {
 bot = TeleBot("6729835437:AAHHhiVCEz9Fa_ANtUCrldxQQ8tXMA5WL-c",parse_mode="HTML")
 
 button = InlineKeyboardMarkup()
+button.row_width = 2
 group = InlineKeyboardButton(text="Group",url="t.me/neuralg")
 channel = InlineKeyboardButton(text="Channel",url="t.me/neuralp")
-button.add(group,channel)
+toFonts = InlineKeyboardButton(text="🔙",callback_data="back")
+button.add(group,channel,toFonts)
 
 @bot.message_handler(commands=["start"])
 def greetUser(msg):
@@ -179,6 +181,8 @@ def chooseFont(msg):
             bot.edit_message_text(data["bracketCharMap"],chatID,msgID,reply_markup=button)
         elif clickedButton == "font32":
             bot.edit_message_text(data["gunFireText"],chatID,msgID,reply_markup=button)
+        elif clickedButton == "back":
+            bot.edit_message_reply_markup(chatID,msgID,reply_markup=option)
         else:
             bot.send_message(chatID,"Please click the Button")
         
