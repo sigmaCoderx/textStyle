@@ -39,7 +39,7 @@ button.add(group,channel,toFonts)
 
 @bot.message_handler(commands=["start"])
 def greetUser(msg):
-    text = f"Hey dear{user_link(msg.from_user)}send text to style and select your best font on the button"
+    text = f"Hey dear {user_link(msg.from_user)} send text to style and select your best font on the button"
     bot.reply_to(msg,text,reply_markup=button)
 
 @bot.message_handler(func=lambda m:True)
@@ -116,71 +116,71 @@ def chooseFont(msg):
 
        
         if clickedButton == "font1":
-            bot.edit_message_text(data["greekCharMap"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["greekCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font2":
-            bot.edit_message_text(data["upperAnglesCharMap"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["upperAnglesCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font3":
-            bot.edit_message_text(data["BoldFloara"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["BoldFloara"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font4":
-            bot.edit_message_text(data["NinjaText"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["NinjaText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font5":
-            bot.edit_message_text(data["doubleStruckCharMap"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["doubleStruckCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font6":
-            bot.edit_message_text(data["neonCharMap"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["neonCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font7":
-            bot.edit_message_text(data["oldEnglishCharBoldMap"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["oldEnglishCharBoldMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font8":
-            bot.edit_message_text(data["oldItalicText"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["oldItalicText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font9":
-            bot.edit_message_text(data["FreeFireText"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["FreeFireText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font10":
-            bot.edit_message_text(data["Ladyleo"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["Ladyleo"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font11":
-            bot.edit_message_text(data["Blocky"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["Blocky"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font12":
-            bot.edit_message_text(data["butterflyIt"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["butterflyIt"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font13":
-            bot.edit_message_text(data["AstroFont"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["AstroFont"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font14":
-            bot.edit_message_text(data["BoldJavaneseText"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["BoldJavaneseText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font15":
-            bot.edit_message_text(data["RitualText"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["RitualText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font16":
-            bot.edit_message_text(data["cursiveLettersBold"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["cursiveLettersBold"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font17":
-            bot.edit_message_text(data["ak47GunText"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["ak47GunText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font18":
-            bot.edit_message_text(data["FooText"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["FooText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font19":
-            bot.edit_message_text(data["GunFire"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["GunFire"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font19":
-            bot.edit_message_text(data["taiVietCharMap"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["taiVietCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font20":
-            bot.edit_message_text(data["eyeOfHorusText"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["eyeOfHorusText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font21":
-            bot.edit_message_text(data["Dessert"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["Dessert"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font22":
-            bot.edit_message_text(data["checksText"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["checksText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font23":
-            bot.edit_message_text(data["RainbowText"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["RainbowText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font24":
-            bot.edit_message_text(data["slowSnail"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["slowSnail"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font25":
-            bot.edit_message_text(data["PingPong"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["PingPong"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font26":
-            bot.edit_message_text(data["MagicalText"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["MagicalText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font27":
-            bot.edit_message_text(data["GunText"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["GunText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font28":
-            bot.edit_message_text(data["JavaneseRerengganText"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["JavaneseRerengganText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font29":
-            bot.edit_message_text(data["featlyFont"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["featlyFont"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font30":
-            bot.edit_message_text(data["fadedBlock"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["fadedBlock"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font31":
-            bot.edit_message_text(data["bracketCharMap"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["bracketCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font32":
-            bot.edit_message_text(data["gunFireText"],chatID,msgID,reply_markup=button)
+            bot.edit_message_text(f' ```{data["gunFireText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "back":
             bot.edit_message_reply_markup(chatID,msgID,reply_markup=option)
         else:
