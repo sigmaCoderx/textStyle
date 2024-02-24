@@ -29,21 +29,39 @@ headers = {
 }
 
 bot = TeleBot("6729835437:AAHHhiVCEz9Fa_ANtUCrldxQQ8tXMA5WL-c",parse_mode="HTML")
-
 button = InlineKeyboardMarkup()
 button.row_width = 2
+
 group = InlineKeyboardButton(text="Group",url="t.me/neuralg")
 channel = InlineKeyboardButton(text="Channel",url="t.me/neuralp")
 toFonts = InlineKeyboardButton(text="🔙",callback_data="back")
 button.add(group,channel,toFonts)
 
+# handle /start command
 @bot.message_handler(commands=["start"])
 def greetUser(msg):
     text = f"Hey dear {user_link(msg.from_user)} send text to style and select your best font on the button"
     bot.reply_to(msg,text,reply_markup=button)
 
+# direction on how to use the bot
+@bot.message_handler(commands=["help"])
+def userManual(msg):
+    bugReport = InlineKeyboardMarkup()
+    bug = InlineKeyboardButton(text="Report a bug",url="t.me/neuralg")
+    bugReport.add(bug)
+    #text = """You can use this bot in two ways\n1)Through buttons and\n2)Through inline ...using <code>@styleTextRobot your text here</code>\nto use through button mode first you have to write pound symbol(hash symbol)<b>#</b> before your text,it help me to protect the conflict occured during the inline query and inline button\nExample on how to use through button
+      # deathLover """
+    text = """ 𝖄𝖔𝖚 𝖈𝖆𝖓 𝖚𝖘𝖊 𝖙𝖍𝖎𝖘 𝖇𝖔𝖙 𝖎𝖓 𝖙𝖜𝖔 𝖜𝖆𝖞𝖘
+1)𝕿𝖍𝖗𝖔𝖚𝖌𝖍 𝖇𝖚𝖙𝖙𝖔𝖓𝖘 𝖆𝖓𝖉
+2)𝕿𝖍𝖗𝖔𝖚𝖌𝖍 𝖎𝖓𝖑𝖎𝖓𝖊 ...𝖚𝖘𝖎𝖓𝖌 @𝖘𝖙𝖞𝖑𝖊𝕿𝖊𝖝𝖙𝕽𝖔𝖇𝖔𝖙 𝖞𝖔𝖚𝖗 𝖙𝖊𝖝𝖙 𝖍𝖊𝖗𝖊
+𝖙𝖔 𝖚𝖘𝖊 𝖙𝖍𝖗𝖔𝖚𝖌𝖍 𝖇𝖚𝖙𝖙𝖔𝖓 𝖒𝖔𝖉𝖊 𝖋𝖎𝖗𝖘𝖙 𝖞𝖔𝖚 𝖍𝖆𝖛𝖊 𝖙𝖔 𝖜𝖗𝖎𝖙𝖊 𝖕𝖔𝖚𝖓𝖉 𝖘𝖞𝖒𝖇𝖔𝖑(𝖍𝖆𝖘𝖍 𝖘𝖞𝖒𝖇𝖔𝖑)# 𝖇𝖊𝖋𝖔𝖗𝖊 𝖞𝖔𝖚𝖗 𝖙𝖊𝖝𝖙,𝖎𝖙 𝖍𝖊𝖑𝖕 𝖒𝖊 𝖙𝖔 𝖕𝖗𝖔𝖙𝖊𝖈𝖙 𝖙𝖍𝖊 𝖈𝖔𝖓𝖋𝖑𝖎𝖈𝖙 𝖔𝖈𝖈𝖚𝖗𝖊𝖉 𝖉𝖚𝖗𝖎𝖓𝖌 𝖙𝖍𝖊 𝖎𝖓𝖑𝖎𝖓𝖊 𝖖𝖚𝖊𝖗𝖞 𝖆𝖓𝖉 𝖎𝖓𝖑𝖎𝖓𝖊 𝖇𝖚𝖙𝖙𝖔𝖓
+𝕰𝖝𝖆𝖒𝖕𝖑𝖊 𝖔𝖓 𝖍𝖔𝖜 𝖙𝖔 𝖚𝖘𝖊 𝖙𝖍𝖗𝖔𝖚𝖌𝖍 𝖇𝖚𝖙𝖙𝖔𝖓
+      # 𝖉𝖊𝖆𝖙𝖍𝕷𝖔𝖛𝖊𝖗"""
+    bot.reply_to(msg,text,reply_markup=bugReport)
+# this decorator handles incoming text
 @bot.message_handler(func=lambda m:True)
 def chooseFont(msg):
+    
 
     fontkeyValue = {"greekCharMap":"font1","upperAnglesCharMap":"font2","BoldFloara":"font3","NinjaText":"font4","doubleStruckCharMap":"font5",
                     "neonCharMap":"font6","oldEnglishCharBoldMap":"font7","oldItalicText":"font8","FreeFireText":"font9","Ladyleo":"font10",
@@ -91,102 +109,173 @@ def chooseFont(msg):
     option.add(op1,op2,op3,op4,op5,op6,op7,op8,op9,op10,op11,op12,op13,op14,op15,
                op16,op17,op18,op19,op20,op21,op22,op23,op24,op25,op26,op27,op28,op29,op30,op31,op32,op33)
     
-    bot.send_message(msg.chat.id,text=msg.text,reply_markup=option)
+    # here i used conditional statement to remove the conflict occured during inline query and inline button
+    if "#" in msg.text:
+        separate = msg.text.split("#")
+        #print(separate)
+        bot.send_message(msg.chat.id,text=msg.text[1:],reply_markup=option)
+    else:
+        pass
+    
+# this decorator handles when the buttons pressed
+@bot.callback_query_handler(func=lambda m:True)
+def styleText(msg):
+    userMsg = msg.message.text
+    clickedButton = msg.data
+    chatID = msg.message.chat.id
+    msgID = msg.message.id
 
-    @bot.callback_query_handler(func=lambda m:True)
-    def styleText(msg):
-        userMsg = msg.message.text
-        clickedButton = msg.data
-        chatID = msg.message.chat.id
-        msgID = msg.message.id
+    json_data = {
+    'text': userMsg,
+    'pages': [
+        'latest',
+        'beautiful',
+        'classic',
+    ],
+    'code': 'main',
+    'crazyness': 0,
+        }
 
-        data = {
-        'text': userMsg,
-        'pages': [
-            'latest',
-            'beautiful',
-            'classic',
-        ],
-        'code': 'main',
-        'crazyness': 0,
-          }
+    response = requests.post('https://www.fontgen.net/build', cookies=cookies, headers=headers, json=json_data)
+    data = json.loads(response.text)
 
-        response = requests.post('https://www.fontgen.net/build', cookies=cookies, headers=headers, json=data)
-        data = json.loads(response.text)
-
-       
+    try:
         if clickedButton == "font1":
-            bot.edit_message_text(f' ```{data["greekCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["greekCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font2":
-            bot.edit_message_text(f' ```{data["upperAnglesCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["upperAnglesCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font3":
-            bot.edit_message_text(f' ```{data["BoldFloara"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["BoldFloara"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font4":
-            bot.edit_message_text(f' ```{data["NinjaText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["NinjaText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font5":
-            bot.edit_message_text(f' ```{data["doubleStruckCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["doubleStruckCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font6":
-            bot.edit_message_text(f' ```{data["neonCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["neonCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font7":
-            bot.edit_message_text(f' ```{data["oldEnglishCharBoldMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["oldEnglishCharBoldMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font8":
-            bot.edit_message_text(f' ```{data["oldItalicText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["oldItalicText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font9":
-            bot.edit_message_text(f' ```{data["FreeFireText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["FreeFireText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font10":
-            bot.edit_message_text(f' ```{data["Ladyleo"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["Ladyleo"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font11":
-            bot.edit_message_text(f' ```{data["Blocky"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["Blocky"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font12":
-            bot.edit_message_text(f' ```{data["butterflyIt"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["butterflyIt"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font13":
-            bot.edit_message_text(f' ```{data["AstroFont"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["AstroFont"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font14":
-            bot.edit_message_text(f' ```{data["BoldJavaneseText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["BoldJavaneseText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font15":
-            bot.edit_message_text(f' ```{data["RitualText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["RitualText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font16":
-            bot.edit_message_text(f' ```{data["cursiveLettersBold"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["cursiveLettersBold"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font17":
-            bot.edit_message_text(f' ```{data["ak47GunText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["ak47GunText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font18":
-            bot.edit_message_text(f' ```{data["FooText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["FooText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font19":
-            bot.edit_message_text(f' ```{data["GunFire"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["GunFire"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font19":
-            bot.edit_message_text(f' ```{data["taiVietCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["taiVietCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font20":
-            bot.edit_message_text(f' ```{data["eyeOfHorusText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["eyeOfHorusText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font21":
-            bot.edit_message_text(f' ```{data["Dessert"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["Dessert"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font22":
-            bot.edit_message_text(f' ```{data["checksText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["checksText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font23":
-            bot.edit_message_text(f' ```{data["RainbowText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["RainbowText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font24":
-            bot.edit_message_text(f' ```{data["slowSnail"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["slowSnail"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font25":
-            bot.edit_message_text(f' ```{data["PingPong"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["PingPong"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font26":
-            bot.edit_message_text(f' ```{data["MagicalText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["MagicalText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font27":
-            bot.edit_message_text(f' ```{data["GunText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["GunText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font28":
-            bot.edit_message_text(f' ```{data["JavaneseRerengganText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["JavaneseRerengganText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font29":
-            bot.edit_message_text(f' ```{data["featlyFont"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["featlyFont"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font30":
-            bot.edit_message_text(f' ```{data["fadedBlock"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["fadedBlock"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font31":
-            bot.edit_message_text(f' ```{data["bracketCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["bracketCharMap"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "font32":
-            bot.edit_message_text(f' ```{data["gunFireText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
+            bot.edit_message_text(f' ```\n{data["gunFireText"]}``` ',chatID,msgID,reply_markup=button,parse_mode="MarkdownV2")
         elif clickedButton == "back":
             bot.edit_message_reply_markup(chatID,msgID,reply_markup=option)
         else:
             bot.send_message(chatID,"Please click the Button")
-        
+    except Exception as ex:
+        print(ex)
+    
 
+# this decorator handles query through inline 
+@bot.inline_handler(func=lambda m:True)
+def inlineStyleText(msg):
+    id = msg.id
+    userMsg = msg.query
+    json_data = {
+    'text': userMsg,
+    'pages': [
+        'latest',
+        'beautiful',
+        'classic',
+    ],
+    'code': 'main',
+    'crazyness': 0,
+        }
+
+    response = requests.post('https://www.fontgen.net/build', cookies=cookies, headers=headers, json=json_data)
+    data = json.loads(response.text)
+
+    
+    markup = InlineKeyboardMarkup()
+    channel = InlineKeyboardButton(text="⚡️",url="t.me/neuralp")
+    markup.add(channel)
+    
+    try:
+        font1 = InlineQueryResultArticle(1,"∂єαтнℓσνєя",InputTextMessageContent(data["greekCharMap"]),reply_markup=markup)
+        font2 = InlineQueryResultArticle(2,"DΣΛƬΉᄂӨVΣЯ",InputTextMessageContent(data["upperAnglesCharMap"]),reply_markup=markup)
+        font3 = InlineQueryResultArticle(3,"❀ꗥ～ꗥ❀ 𝐝𝐞𝐚𝐭𝐡𝐋 𝐨𝐯𝐞𝐫 ❀ꗥ～ꗥ❀",InputTextMessageContent(data["BoldFloara"]),reply_markup=markup)
+        font4 = InlineQueryResultArticle(4,"đēⱥⱦħŁꝋꝟēɍ𓆪",InputTextMessageContent(data["NinjaText"]),reply_markup=markup)
+        font5 = InlineQueryResultArticle(5,"𝕕𝕖𝕒𝕥𝕙𝕃𝕠𝕧𝕖𝕣",InputTextMessageContent(data["doubleStruckCharMap"]),reply_markup=markup)
+        font6 = InlineQueryResultArticle(6,"ᗪEᗩTᕼᒪOᐯEᖇ",InputTextMessageContent(data["neonCharMap"]),reply_markup=markup)
+        font7 = InlineQueryResultArticle(7,"𝖉𝖊𝖆𝖙𝖍𝕷𝖔𝖛𝖊𝖗",InputTextMessageContent(data["oldEnglishCharBoldMap"]),reply_markup=markup)
+        font8 = InlineQueryResultArticle(8,"𐌃𐌄𐌀𐌕𐋅𐌋Ꝋᕓ𐌄𐌓",InputTextMessageContent(data["oldItalicText"]),reply_markup=markup)
+        font9 = InlineQueryResultArticle(9,"★彡( ĐɆ₳₮ⱧⱠØVɆⱤ )彡★",InputTextMessageContent(data["FreeFireText"]),reply_markup=markup)
+        font10 = InlineQueryResultArticle(10,"❀💋❀ ƊƸ𐤠ƬǶȴΘƲƸⱤ ❀💋❀",InputTextMessageContent(data["Ladyleo"]),reply_markup=markup)
+        font11 = InlineQueryResultArticle(11,"▁▂▄▅▆▇█ DΣΛƬΉᄂӨVΣЯ █▇▆▅▄▂▁",InputTextMessageContent(data["Blocky"]),reply_markup=markup)
+        font12 = InlineQueryResultArticle(12,"♥Ƹ̵̡Ӝ ̵̨̄Ʒ♥ 𝖉𝖊𝖆𝖙𝖍𝕷𝖔𝖛𝖊𝖗 ♥Ƹ̵̡Ӝ̵̨̄Ʒ♥",InputTextMessageContent(data["butterflyIt"]),reply_markup=markup)
+        font13 = InlineQueryResultArticle(13,"✫☼☾☁ 𝝙𝝚𝝖𝝩𝝜Ⳑ𝝤ꓴ𝝚Ɍ ☁☾☼✫",InputTextMessageContent(data["AstroFont"]),reply_markup=markup)
+        font14 = InlineQueryResultArticle(14,"꧁༺ 𝓭𝓮𝓪𝓽𝓱𝓛𝓸𝓿𝓮𝓻 ༻꧂",InputTextMessageContent(data["BoldJavaneseText"]),reply_markup=markup)
+        font15 = InlineQueryResultArticle(15,"ᘛᗽ ɖɛǟȶɦʟօʋɛʀ ᘀᘗ",InputTextMessageContent(data["RitualText"]),reply_markup=markup)
+        font16 = InlineQueryResultArticle(16,"𝓭𝓮𝓪𝓽𝓱𝓛𝓸𝓿𝓮𝓻",InputTextMessageContent(data["cursiveLettersBold"]),reply_markup=markup)
+        font17 = InlineQueryResultArticle(17,"╤╦︻ ƊƸ𐤠ƬǶȴΘƲƸⱤ ︻╦╤─",InputTextMessageContent(data["ak47GunText"]),reply_markup=markup)
+        font18 = InlineQueryResultArticle(18,"ཫ꙳✱( ๔єคՇђɭ๏שєг )✱꙳ཀ",InputTextMessageContent(data["FooText"]),reply_markup=markup)
+        font19 = InlineQueryResultArticle(19,"DΣΛƬΉᄂӨVΣЯ ︻╦̵̵̿╤─ ҉~•",InputTextMessageContent(data["GunFire"]),reply_markup=markup)
+        font20 = InlineQueryResultArticle(20,"ᦔꫀꪖꪻꫝꪶꪮꪜꫀ᥅",InputTextMessageContent(data["eyeOfHorusText"]),reply_markup=markup)
+        font21 = InlineQueryResultArticle(21,"𓂀 𝒹𝑒𝒶𝓉𝒽𝓛𝑜𝓋𝑒𝓇 𓂀",InputTextMessageContent(data["Dessert"]),reply_markup=markup)
+        font22 = InlineQueryResultArticle(22,"𐋐﹍𖼜﹍𖼜﹍ 𝚍𝚎𝚊𝚝𝚑𝙻𝚘𝚟𝚎𝚛 ﹍𐋐﹍𐋐﹍𖼜𖼜﹍☀",InputTextMessageContent(data["checksText"]),reply_markup=markup)
+        font23 = InlineQueryResultArticle(23,"▟▛▜▟▛▜▟▛ 🄳🄴🄰🅃🄷🄻🄾🅅🄴🅁 ▟▛▜▟▛▜▟▛",InputTextMessageContent(data["RainbowText"]),reply_markup=markup)
+        font24 = InlineQueryResultArticle(24,"𝐝𝐞𝐚𝐭𝐡𝐋𝐨𝐯𝐞𝐫🌈™",InputTextMessageContent(data["slowSnail"]),reply_markup=markup)
+        font25 = InlineQueryResultArticle(25,"_꩜ 𝘥𝘦𝘢𝘵�𝘓𝘰𝘷𝘦𝘳 ꩜_",InputTextMessageContent(data["PingPong"]),reply_markup=markup)
+        font26 = InlineQueryResultArticle(26,"(•_•)O*¯`·.¸ ๔єคՇђɭ๏שєг ¸.·´¯*O(•_•)",InputTextMessageContent(data["MagicalText"]),reply_markup=markup)
+        font27 = InlineQueryResultArticle(27,"☆꧁✬◦°˚°◦. ɖɛ     ǟȶɦʟօʋɛʀ .◦°˚°◦✬꧂☆",InputTextMessageContent(data["GunText"]),reply_markup=markup)
+        font28 = InlineQueryResultArticle(28,"▄︻デɖɛǟȶɦʟօʋɛʀ═══━一",InputTextMessageContent(data["JavaneseRerengganText"]),reply_markup=markup)
+        font29 = InlineQueryResultArticle(29,"꧁༺deathLover ༻꧂",InputTextMessageContent(data["featlyFont"]),reply_markup=markup)
+        font30 = InlineQueryResultArticle(30,"·ᰄ· ԂⲈშԷ𐌷ᒷ❍ƲⲈՐ ·ᰄ·",InputTextMessageContent(data["fadedBlock"]),reply_markup=markup)
+        font31 = InlineQueryResultArticle(31,"▂▃▅▇█▓▒░𝚍𝚎𝚊𝚝𝚑𝙻𝚘�𝚎𝚛░░▒▓█▇▅▃▂",InputTextMessageContent(data["bracketCharMap"]),reply_markup=markup)
+        font32 = InlineQueryResultArticle(32,"🄓🄔🄐🄣🄗🄛🄞🄥🄔🄡",InputTextMessageContent(data["gunFireText"]),reply_markup=markup)
+
+        bot.answer_inline_query(id,[font1,font2,font3,font4,font5,font6,font7,font8,font9,font10,font11,font12,font13,font14,font15,font16,font17,
+                                    font18,font19,font20,font21,font22,font23,font24,font25,font26,font27,font28,font29,font30,font31,font32])
+    except Exception as e:
+        print(e)
 
 
 bot.infinity_polling()
