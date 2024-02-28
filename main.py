@@ -50,12 +50,15 @@ button.add(group,channel,toFonts)
 connection = "mongodb+srv://sigmaCoder:19932021Abc@sigmacoder.9r7hnap.mongodb.net/?retryWrites=true&w=majority&appName=sigmaCoder"
 client = MongoClient(connection)
 
+# crate a database ["styleText"]
 db = client.styleText
+# create a collection["botUsers"] 
 users = db.botUsers
+# create a collection["admins"]
 admins = db.admins
-
 admin_id = [640419142,2069970688]
 total_user = users.count_documents({})
+
 # handle /start command
 @bot.message_handler(commands=["start"])
 def greetUser(msg):
