@@ -1,8 +1,14 @@
 
+# parser libraries
 import json
 import requests
+#<---------------->
+# database library
+from pymongo import MongoClient
+#<---------------->
+# bot library 
 from telebot import TeleBot,types,util
-from telebot.types import InlineKeyboardMarkup,InlineKeyboardButton
+from telebot.types import InlineKeyboardMarkup,InlineKeyboardButton,InlineQueryResultArticle,InputTextMessageContent
 from telebot.util import user_link
 
 cookies = {
@@ -27,8 +33,11 @@ headers = {
     'sec-fetch-site': 'same-origin',
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
 }
+#bot = TeleBot("7071225685:AAG-IrTmXsg5kbVw3pGHFyhJpLcO8hHDw8Q",parse_mode="HTML")
+parser = "HTML"
+botToken = "6729835437:AAHHhiVCEz9Fa_ANtUCrldxQQ8tXMA5WL-c"
+bot = TeleBot(botToken,parse_mode=parser)
 
-bot = TeleBot("6729835437:AAHHhiVCEz9Fa_ANtUCrldxQQ8tXMA5WL-c",parse_mode="HTML")
 button = InlineKeyboardMarkup()
 button.row_width = 2
 
@@ -37,31 +46,134 @@ channel = InlineKeyboardButton(text="Channel",url="t.me/neuralp")
 toFonts = InlineKeyboardButton(text="🔙",callback_data="back")
 button.add(group,channel,toFonts)
 
+
+connection = "mongodb+srv://sigmaCoder:19932021Abc@sigmacoder.9r7hnap.mongodb.net/?retryWrites=true&w=majority&appName=sigmaCoder"
+client = MongoClient(connection)
+
+db = client.styleText
+users = db.botUsers
+admins = db.admins
+
+admin_id = [640419142,2069970688]
+total_user = users.count_documents({})
 # handle /start command
 @bot.message_handler(commands=["start"])
 def greetUser(msg):
+    userID = msg.from_user.id
+    firstName = msg.from_user.first_name
+    userName = f"@{msg.from_user.username}" 
+    data = {"userid":userID,"first_name":firstName,"user_name":userName}
+    if users.find_one({"userid":userID}) == None:
+        to_db = users.insert_one(data)
+
     text = f"Hey dear {user_link(msg.from_user)} send text to style and select your best font on the button"
     bot.reply_to(msg,text,reply_markup=button)
 
 # direction on how to use the bot
 @bot.message_handler(commands=["help"])
 def userManual(msg):
+    userID = msg.from_user.id
+    firstName = msg.from_user.first_name
+    userName = f"@{msg.from_user.username}" 
+    data = {"userid":userID,"first_name":firstName,"user_name":userName}
+    if users.find_one({"userid":userID}) == None:
+        to_db = users.insert_one(data)
     bugReport = InlineKeyboardMarkup()
     bug = InlineKeyboardButton(text="Report a bug",url="t.me/neuralg")
     bugReport.add(bug)
     #text = """You can use this bot in two ways\n1)Through buttons and\n2)Through inline ...using <code>@styleTextRobot your text here</code>\nto use through button mode first you have to write pound symbol(hash symbol)<b>#</b> before your text,it help me to protect the conflict occured during the inline query and inline button\nExample on how to use through button
       # deathLover """
-    text = """ 𝖄𝖔𝖚 𝖈𝖆𝖓 𝖚𝖘𝖊 𝖙𝖍𝖎𝖘 𝖇𝖔𝖙 𝖎𝖓 𝖙𝖜𝖔 𝖜𝖆𝖞𝖘
+    text = """ # 𝖄𝖔𝖚 𝖈𝖆𝖓 𝖚𝖘𝖊 𝖙𝖍𝖎𝖘 𝖇𝖔𝖙 𝖎𝖓 𝖙𝖜𝖔 𝖜𝖆𝖞𝖘
 1)𝕿𝖍𝖗𝖔𝖚𝖌𝖍 𝖇𝖚𝖙𝖙𝖔𝖓𝖘 𝖆𝖓𝖉
-2)𝕿𝖍𝖗𝖔𝖚𝖌𝖍 𝖎𝖓𝖑𝖎𝖓𝖊 ...𝖚𝖘𝖎𝖓𝖌 @𝖘𝖙𝖞𝖑𝖊𝕿𝖊𝖝𝖙𝕽𝖔𝖇𝖔𝖙 𝖞𝖔𝖚𝖗 𝖙𝖊𝖝𝖙 𝖍𝖊𝖗𝖊
-𝖙𝖔 𝖚𝖘𝖊 𝖙𝖍𝖗𝖔𝖚𝖌𝖍 𝖇𝖚𝖙𝖙𝖔𝖓 𝖒𝖔𝖉𝖊 𝖋𝖎𝖗𝖘𝖙 𝖞𝖔𝖚 𝖍𝖆𝖛𝖊 𝖙𝖔 𝖜𝖗𝖎𝖙𝖊 𝖕𝖔𝖚𝖓𝖉 𝖘𝖞𝖒𝖇𝖔𝖑(𝖍𝖆𝖘𝖍 𝖘𝖞𝖒𝖇𝖔𝖑)# 𝖇𝖊𝖋𝖔𝖗𝖊 𝖞𝖔𝖚𝖗 𝖙𝖊𝖝𝖙,𝖎𝖙 𝖍𝖊𝖑𝖕 𝖒𝖊 𝖙𝖔 𝖕𝖗𝖔𝖙𝖊𝖈𝖙 𝖙𝖍𝖊 𝖈𝖔𝖓𝖋𝖑𝖎𝖈𝖙 𝖔𝖈𝖈𝖚𝖗𝖊𝖉 𝖉𝖚𝖗𝖎𝖓𝖌 𝖙𝖍𝖊 𝖎𝖓𝖑𝖎𝖓𝖊 𝖖𝖚𝖊𝖗𝖞 𝖆𝖓𝖉 𝖎𝖓𝖑𝖎𝖓𝖊 𝖇𝖚𝖙𝖙𝖔𝖓
-𝕰𝖝𝖆𝖒𝖕𝖑𝖊 𝖔𝖓 𝖍𝖔𝖜 𝖙𝖔 𝖚𝖘𝖊 𝖙𝖍𝖗𝖔𝖚𝖌𝖍 𝖇𝖚𝖙𝖙𝖔𝖓
-      # 𝖉𝖊𝖆𝖙𝖍𝕷𝖔𝖛𝖊𝖗"""
+2)𝕿𝖍𝖗𝖔𝖚𝖌𝖍 𝖎𝖓𝖑𝖎𝖓𝖊,𝖜𝖗𝖎𝖙𝖊 𝖇𝖔𝖙 𝖚𝖘𝖊𝖗𝖓𝖆𝖒𝖊 𝖙𝖍𝖊𝖓 𝖙𝖍𝖊 𝖙𝖊𝖝𝖙 𝖞𝖔𝖚 𝖜𝖆𝖓𝖙,𝖑𝖎𝖐𝖊 𝖙𝖍𝖎𝖘: @𝖘𝖙𝖞𝖑𝖊𝕿𝖊𝖝𝖙𝕽𝖔𝖇𝖔𝖙 𝖞𝖔𝖚𝖗 𝖙𝖊𝖝𝖙 𝖍𝖊𝖗𝖊
+⚠️𝕯𝖔𝖓'𝖙 𝖚𝖘𝖊 𝖎𝖓𝖑𝖎𝖓𝖊 𝖒𝖔𝖉𝖊 𝖍𝖊𝖗𝖊 𝖎𝖓 𝖇𝖔𝖙!"""
     bot.reply_to(msg,text,reply_markup=bugReport)
+
+# This is the /broadcast command 
+@bot.message_handler(commands=["broadcast"])
+def broadcast(msg):
+    userID = msg.from_user.id
+    firstName = msg.from_user.first_name
+    userName = f"@{msg.from_user.username}" 
+    data = {"userid":userID,"first_name":firstName,"user_name":userName}
+
+    if userID not in admin_id:
+        bot.reply_to(msg,"This command is for admins only!")
+    else:
+        bot.reply_to(msg,"Send me a broadcasting message:")
+        bot.register_next_step_handler(msg,send)
+
+def send(msg):
+    for ids in users.find({}):
+        id = ids["userid"]
+        #uid = 5249435830 --admin id---
+        bot.send_message(id,f"{msg.text}",reply_markup=buttons)
+        #bot.reply_to(msg,f"""Your msg: {msg.text}\n broadcasted successfully!""")
+
+@bot.message_handler(commands=["notify"])
+def notify(msg):
+    #send msg to specific user
+    userID = msg.from_user.id
+    text = msg.text
+    if userID in admin_id:
+        bot.reply_to(msg,"Send me with this format: <b>/id</b>\n <b>your text here in new line</b>")
+        bot.register_next_step_handler(msg,sendto_user)
+    else:
+        bot.send_message(msg.chat.id,"You are not in admins list:)")
+
+def sendto_user(message):
+    id = message.text.split("/")[1]
+    msg = message.text.splitlines()
+    print(msg)
+    bot.send_message(id,msg[1])
+    bot.reply_to(message,f"Your msg {msg[1]} delivered successfully:)")
+
+@bot.message_handler(commands=["adminreg"])
+def adminRegister(msg):
+    userID = msg.from_user.id
+    #check user if he is allowed or not
+    if userID in admin_id:
+        #t = """Send me your information separated with(<b>|</b>) example <b>yourID|</b><b>name|</b><b>username:\n example: 5342<b>|</b>The Ep<b>|</b>@The_ep"""
+        text = "Please send admin id and permission bool:True or False\n example: <b>453</b>|<b>True</b>\t acceptable with format only."
+        bot.send_message(msg.chat.id,text)
+        bot.register_next_step_handler(msg,getInfo)
+    else:
+        bot.send_message(msg.chat.id,"You are not in allowed to use this command!")    
+        
+def getInfo(msg):
+    info = msg.text.split("|")
+    adm_id = info[0]
+    is_admin = info[1]
+    #adm_fName = info[1]
+    #adm_userName = f"@{info[2]}"
+    #admin_data = {"adminID":int(adm_id),"adminName":adm_fName,"adminUsername":adm_userName}
+    admin_data = {"adminID":[adm_id],"admin":is_admin}
+    if admins.find_one({"adminID":adm_id}) == None:
+        to_db = admins.insert_one(admin_data)
+        #print(admin_data["adminUsername"])
+    else:
+        pass
+    bot.reply_to(msg,f"Your msg: <b>{admin_data}</b> successfully saved on db!")
+
+@bot.message_handler(commands=["count"])
+def count_users(msg):
+    userID = msg.from_user.id
+    firstName = msg.from_user.first_name
+    userName = f"@{msg.from_user.username}" 
+    data = {"userid":userID,"first_name":firstName,"user_name":userName}
+    if users.find_one({"userid":userID}) == None:
+        to_db = users.insert_one(data)
+    bot.send_message(msg.chat.id,f"We have:<b>{total_user} users</b> in our bot!")
+
 # this decorator handles incoming text
 @bot.message_handler(func=lambda m:True)
 def chooseFont(msg):
-    
+    userID = msg.from_user.id
+    firstName = msg.from_user.first_name
+    userName = f"@{msg.from_user.username}" 
+    data = {"userid":userID,"first_name":firstName,"user_name":userName}
+    if users.find_one({"userid":userID}) == None:
+        to_db = users.insert_one(data)
 
     fontkeyValue = {"greekCharMap":"font1","upperAnglesCharMap":"font2","BoldFloara":"font3","NinjaText":"font4","doubleStruckCharMap":"font5",
                     "neonCharMap":"font6","oldEnglishCharBoldMap":"font7","oldItalicText":"font8","FreeFireText":"font9","Ladyleo":"font10",
@@ -109,6 +221,8 @@ def chooseFont(msg):
     option.add(op1,op2,op3,op4,op5,op6,op7,op8,op9,op10,op11,op12,op13,op14,op15,
                op16,op17,op18,op19,op20,op21,op22,op23,op24,op25,op26,op27,op28,op29,op30,op31,op32,op33)
     
+    """
+    The below code use to filter the message sent to the bot and handle it
     # here i used conditional statement to remove the conflict occured during inline query and inline button
     if "#" in msg.text:
         separate = msg.text.split("#")
@@ -116,7 +230,8 @@ def chooseFont(msg):
         bot.send_message(msg.chat.id,text=msg.text[1:],reply_markup=option)
     else:
         pass
-    
+    """
+    bot.send_message(msg.chat.id,msg.text,reply_markup=option)
 # this decorator handles when the buttons pressed
 @bot.callback_query_handler(func=lambda m:True)
 def styleText(msg):
