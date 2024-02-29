@@ -56,8 +56,13 @@ db = client.styleText
 users = db.botUsers
 # create a collection["admins"]
 admins = db.admins
-admin_id = [640419142,2069970688]
+# to get the total user of the bot from the database
 total_user = users.count_documents({})
+
+# admin lists
+admin_id = [640419142,2069970688]
+# channel id
+chatID = -1001776406696
 
 # handle /start command
 @bot.message_handler(commands=["start"])
@@ -168,6 +173,22 @@ def count_users(msg):
         to_db = users.insert_one(data)
     bot.send_message(msg.chat.id,f"We have:<b>{total_user} users</b> in our bot!")
 
+@bot.message_handler(commands=["post"],content_types=["text","photo","video"])
+def onChannel(msg):
+    userID = msg.from_user.id
+    text = "Send me post:"
+    #check user if he is allowed or not
+    if userID in admin_id:
+        bot.send_message(msg.chat.id,text)
+        # to get the incoming msg,helps to register incoming msg
+        bot.register_next_step_handler(msg,getPost)
+    else:
+        bot.reply_to(msg,"You are not in admin list")
+
+def getPost(msg):
+    postMsg = msg.text
+    bot.send_message(chatID,postMsg)
+    
 # this decorator handles incoming text
 @bot.message_handler(func=lambda m:True)
 def chooseFont(msg):
