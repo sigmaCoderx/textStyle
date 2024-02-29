@@ -187,7 +187,7 @@ def onChannel(msg):
 
 def getPost(msg):
     postMsg = msg.text
-    bot.send_message(chatID,postMsg)
+    bot.send_message(chatID,postMsg,disable_web_page_preview=True)
     
 # this decorator handles incoming text
 @bot.message_handler(func=lambda m:True)
