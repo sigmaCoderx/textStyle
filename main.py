@@ -28,7 +28,7 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
 }
 
-bot = TeleBot("6729835437:AAHHhiVCEz9Fa_ANtUCrldxQQ8tXMA5WL-c",parse_mode="HTML")
+bot = TeleBot("<Bot API>",parse_mode="HTML")
 
 button = InlineKeyboardMarkup()
 button.row_width = 2
@@ -190,5 +190,6 @@ def chooseFont(msg):
 
 
 bot.infinity_polling()
+
 
 
